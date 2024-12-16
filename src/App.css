@@ -1,9 +1,30 @@
 body {
   display: flex;
+  min-height: 100vh;
+  font-family: inter;
+}
+
+
+.title {
+  text-align: left;
+  word-break: break-word;
+  word-spacing: 50000px;
+  line-height: 30px;
+  
+  /* margin-bottom: -1px; */
+}
+
+.subtitle {
+  margin-top: -15px;
+  font-style: italic;
+  font-size: larger;
+  font-weight:bold;
+  
+}
+
+.menu {
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-
 }
 
 .input {

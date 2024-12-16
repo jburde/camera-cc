@@ -4,78 +4,129 @@ import './App.css';
 import Currency from './Currency';
 
 const API_KEY = 'rlraTVMhYLJLFVx2fVD3DqXhgCBnhviW'
-const BASE_URL = 'https://api.currencybeacon.com/v1/latest'
+const BASE_URL = 'https://api.currencybeacon.com/v1/convert'
+const SUPPORTED_CURRENCIES = ['USD', 'AUD', 'EUR','GBP', 'JPY', 'CAD', 'CHF', 'CNY', 'INR'];
 
 function App() {
+  const [fromCurr, setFromCurr] = useState('USD');
+  const [toCurr, setToCurr] = useState('AUD');
+  const [exchangeRate, setExchangeRate] = useState();
+  const [amount, setAmount] = useState(1);
+  const [amountInFromCurr, setAmountInFromCurr] = useState(true);
 
-  const [currencyOptions, setCurrencyOptions] = useState([])
-  //console.log(currencyOptions)
-  // pass func, convert to json, add to array 
-  const [fromCurr, setFromCurr] = useState({})
-  const [toCurr, setToCurr] = useState()
-  const [exchangeRate, setExchangeRate] = useState()
-  const [amount, setAmount] = useState(1)
-  const [amountInFromCurr, setAmountInFromCurr] = useState(true)
-
-  let toAmount, fromAmount
+  // Calculate amounts
+  let toAmount, fromAmount;
   if (amountInFromCurr) {
-    fromAmount = amount
-    toAmount = amount * exchangeRate
+    fromAmount = amount;
+    toAmount = exchangeRate ? (amount * exchangeRate).toFixed(2) : '';
   } else {
-    toAmount = amount
-    fromAmount = amount / exchangeRate
+    toAmount = amount;
+    fromAmount = exchangeRate ? (amount / exchangeRate).toFixed(2) : '';
   }
 
-  //console.log(exchangeRate)
-  useEffect(() => { 
-    fetch(BASE_URL, {
-      headers: {
-        'Authorization': `Bearer ${API_KEY}` // Some APIs use 'Authorization' instead of 'x-api-key'
-      }
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        const firstCurr = Object.keys(data.rates)[0]
-        setCurrencyOptions([data.base, ...Object.keys(data.rates)]) //console.log(data))
-        console.log(data)
-        setFromCurr(data.base)
-        setToCurr(firstCurr)
-        setExchangeRate(data.rates[firstCurr])
-      })
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
-
+  // Fetch exchange rate when currencies change
   useEffect(() => {
-    if (fromCurr != null && toCurr != null && amount > 0) {
-      fetch(`${BASE_URL}?from=${fromCurr}&to=${toCurr}&amount=${amount}`, {
+    if (fromCurr && toCurr) {
+      fetch(`${BASE_URL}?from=${fromCurr}&to=${toCurr}&amount=1`, {
         headers: {
-          'x-api-key': API_KEY // Replace with your actual API key
+          'Authorization': `Bearer ${API_KEY}`
         }
       })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
-          return res.json();
+          return response.json();
         })
-        .then((data) => {
-          if (data.success) {
-            setExchangeRate(data.result / amount); // Derive the rate from the conversion result
-          } else {
-            console.error('Conversion failed:', data.error);
-          }
-        })
-        .catch((error) => console.error('Error fetching conversion:', error));
+        .then(data => setExchangeRate(data.response.value))
+        .catch(error => console.error('Error fetching exchange rate:', error));
     }
-  }, [fromCurr, toCurr, amount]);
-  
-  
+  }, [fromCurr, toCurr]);
 
+  // Handlers for input changes
+  const handleFromAmountChange = e => {
+    setAmount(e.target.value);
+    setAmountInFromCurr(true);
+  };
+
+  const handleToAmountChange = e => {
+    setAmount(e.target.value);
+    setAmountInFromCurr(false);
+  };
+
+  return (
+    <>
+      <h1 className='title'>Camera Currency Converter</h1>
+      <p className='subtitle'>Select. Point. Convert.</p>
+
+      <Currency
+        currencyOptions={SUPPORTED_CURRENCIES}
+        selectCurrency={fromCurr}
+        onChangeCurrency={e => setFromCurr(e.target.value)}
+        onChangeAmount={handleFromAmountChange}
+        amount={fromAmount}
+      />
+      <div className="equals">arrow</div>
+      <Currency
+        currencyOptions={SUPPORTED_CURRENCIES}
+        selectCurrency={toCurr}
+        onChangeCurrency={e => setToCurr(e.target.value)}
+        onChangeAmount={handleToAmountChange}
+        amount={toAmount}
+      />
+    </>
+  );
+}
+
+export default App;
+
+  //console.log(exchangeRate)
+  // useEffect(() => { 
+  //   fetch(BASE_URL, {
+  //     headers: {
+  //       'Authorization': `Bearer ${API_KEY}` // Some APIs use 'Authorization' instead of 'x-api-key'
+  //     }
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error(`HTTP error! Status: ${res.status}`);
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       const firstCurr = Object.keys(data.rates)[0]
+  //       setCurrencyOptions([data.base, ...Object.keys(data.rates)]) //console.log(data))
+  //       console.log(data)
+  //       setFromCurr(data.base)
+  //       setToCurr(firstCurr)
+  //       setExchangeRate(data.rates[firstCurr])
+  //     })
+  // }, [])
+
+  // useEffect(() => {
+  //   if (fromCurr != null && toCurr != null && amount > 0) {
+  //     fetch(`${BASE_URL}?from=${fromCurr}&to=${toCurr}&amount=${amount}`, {
+  //       headers: {
+  //         'x-api-key': API_KEY // Replace with your actual API key
+  //       }
+  //     })
+  //       .then((res) => {
+  //         if (!res.ok) {
+  //           throw new Error(`HTTP error! Status: ${res.status}`);
+  //         }
+  //         return res.json();
+  //       })
+  //       .then((data) => {
+  //         if (data.success) {
+  //           setExchangeRate(data.result / amount); // Derive the rate from the conversion result
+  //         } else {
+  //           console.error('Conversion failed:', data.error);
+  //         }
+  //       })
+  //       .catch((error) => console.error('Error fetching conversion:', error));
+  //   }
+  // }, [fromCurr, toCurr, amount]);
+  
   // useEffect(() => {
   //   if (fromCurr != null && toCurr != null) {
   //   fetch(`${BASE_URL}?base=${fromCurr}&symbols=${toCurr}`)
@@ -84,38 +135,6 @@ function App() {
   //   }
   // }), [fromCurr, toCurr]
 
-  function handleFromAmountChange(e) {
-    setAmount(e.target.value)
-    setAmountInFromCurr(true)
-  }
-
-  function handleToAmountChange(e) {
-    setAmount(e.target.value)
-    setAmountInFromCurr(false)
-  }
-
-  return (
-    <>
-      <h1>Camera Currency Converter</h1>
-      <p>Select. Point. Convert.</p>
-
-    <Currency 
-      currencyOptions={currencyOptions}
-      selectCurrency={fromCurr}
-      onChangeCurrency={e => setFromCurr(e.target.value)}
-      onChangeAmount={handleFromAmountChange}
-      amount = {fromAmount}
-    />
-    <div className="equals">arrow</div>
-    <Currency
-      currencyOptions={currencyOptions}
-      selectCurrency={toCurr}
-      onChangeCurrency={e => setToCurr(e.target.value)}
-      onChangeAmount={handleToAmountChange}
-      amount = {toAmount}
-    />
-    </>
-    
     // <div className="App">
     //   <header className="App-header">
     //     <img src={logo} className="App-logo" alt="logo" />
@@ -132,7 +151,3 @@ function App() {
     //     </a>
     //   </header>
     // </div>
-  );
-}
-
-export default App;
