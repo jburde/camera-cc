@@ -1,12 +1,25 @@
+
 body {
   display: flex;
+  /* hmm not sure about this part */
+  justify-content: center;
+  align-items: center;
+  /*  */
   min-height: 100vh;
   font-family: inter;
+  margin: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.title-box {
+  margin-bottom: 100px;
 }
 
 
 .title {
-  text-align: left;
+  text-align: center;
+  font-size: 1.5rem;
   word-break: break-word;
   word-spacing: 50000px;
   line-height: 30px;
@@ -15,33 +28,131 @@ body {
 }
 
 .subtitle {
+  text-align: center;
   margin-top: -15px;
   font-style: italic;
-  font-size: larger;
+  font-size: 1rem;
+  margin-bottom: 1rem;
   font-weight:bold;
   
 }
 
-.menu {
+.currency-row {
+  display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-.input {
-  border: 2px solid black;
+.currency-row select {
+  border: 2px solid #e0e0e0;
   border-radius: 10em;
-  padding: .20em;
-  width: 7em;
+  padding: 0.5em;
+  width: 6rem;
+  font-size: 1rem;
+  text-align: center;
+  background-color: #e0e0e0;
 }
 
 select {
-  margin-left: .5rem;
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0;    /* Light gray border */
+  border-radius: 4px;        /* Rounded corners */
+  padding: 8px 12px;         /* Padding for better spacing */
+  font-size: 1rem;           /* Font size */
+  appearance: none;          /* Remove default styling */
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  outline: none;
+  /* -webkit-appearance: */
+}
+
+.arrow img {
+  width: 30px;
+  height: 30px;
+}
+
+/* amount conversion */
+.amount-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+}
+
+.amount-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* background box */
+.amount-input {
+  background-color: #e0e0e0;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  text-align: center;
+  width: 70px;
 }
 
 .equals {
   font-weight: bold;
   font-size: 2rem;
 }
+
+.camera-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.camera-button button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 10px 20px ;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  
+}
+
+.camera-buttom button:hover {
+  background-color: #e0e0e0;
+}
+
+.camera-icon {
+  width: 1.2rem;
+  height: 1rem;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+
+
+
+/*
+
+select {
+  margin-left: .5rem;
+}
+ */
 
 
 /* .App {

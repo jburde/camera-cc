@@ -1,7 +1,15 @@
 //import logo from './logo.svg';
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Currency from './Currency';
+import Currency from './components/Currency';
+import arrowIcon from "./assets/arrow.png";
+import cameraIcon from "./assets/camera.png";
+import currencies from './currencies.json';
+
+import Camera from './components/Camera';
+import CurrencyConverter from './components/CurrencyConverter';
+
+
 
 const API_KEY = 'rlraTVMhYLJLFVx2fVD3DqXhgCBnhviW'
 const BASE_URL = 'https://api.currencybeacon.com/v1/convert'
@@ -49,36 +57,70 @@ function App() {
     setAmountInFromCurr(true);
   };
 
-  const handleToAmountChange = e => {
-    setAmount(e.target.value);
-    setAmountInFromCurr(false);
-  };
-
   return (
     <>
-      <h1 className='title'>Camera Currency Converter</h1>
-      <p className='subtitle'>Select. Point. Convert.</p>
+      <div className="title-box">
+        <h1 className='title'>Camera Currency Converter</h1>
+        <p className='subtitle'>Select. Point. Convert.</p>
+      </div>
+    
+      <div className="currency-row">
+        <Currency
+          currencyOptions={SUPPORTED_CURRENCIES}
+          selectCurrency={fromCurr}
+          onChangeCurrency={e => setFromCurr(e.target.value)}
+          // onChangeAmount={handleFromAmountChange}
+          // amount={fromAmount}
+        />
+        <div className="arrow">
+          <img src={arrowIcon} alt="Arrow" />
+        </div>
+        <Currency
+          currencyOptions={SUPPORTED_CURRENCIES}
+          selectCurrency={toCurr}
+          onChangeCurrency={e => setToCurr(e.target.value)}
+          // onChangeAmount={handleToAmountChange}
+          // amount={toAmount}
+        />
+      </div>
 
-      <Currency
-        currencyOptions={SUPPORTED_CURRENCIES}
-        selectCurrency={fromCurr}
-        onChangeCurrency={e => setFromCurr(e.target.value)}
-        onChangeAmount={handleFromAmountChange}
-        amount={fromAmount}
-      />
-      <div className="equals">arrow</div>
-      <Currency
-        currencyOptions={SUPPORTED_CURRENCIES}
-        selectCurrency={toCurr}
-        onChangeCurrency={e => setToCurr(e.target.value)}
-        onChangeAmount={handleToAmountChange}
-        amount={toAmount}
-      />
-    </>
+      {/* input row */}
+      <div className="amount-row">
+        <input 
+          type="number"
+          className="amount-input"
+          value={fromAmount}
+          onChange={handleFromAmountChange}
+        />
+      <div className="equals">=</div>
+        <input
+          type="number"
+          className="amount-input"
+          value={toAmount}
+          onChange={handleFromAmountChange}
+        />
+      </div>
+
+      <div className="camera-button">
+        <button >
+          <img src={cameraIcon} alt="Camera Icon" className="camera-icon" />
+          Camera Translation
+        </button>
+      </div>
+
+      <p className="footer">Built by Jerry Burdett</p>
+      </>
   );
 }
 
 export default App;
+
+/* Amount values and equal sign */
+      /* <div className="amount-row">
+        <div className="amount">{fromAmount}</div>
+        <div className="equals">=</div>
+        <div className="amount">{toAmount}</div>
+      </div> */
 
   //console.log(exchangeRate)
   // useEffect(() => { 
