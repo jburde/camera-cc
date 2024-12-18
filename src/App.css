@@ -1,0 +1,221 @@
+
+body {
+  display: flex;
+  /* hmm not sure about this part */
+  justify-content: center;
+  align-items: center;
+  /*  */
+  min-height: 100vh;
+  font-family: inter;
+  margin: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.title-box {
+  margin-bottom: 100px;
+}
+
+
+.title {
+  text-align: center;
+  font-size: 2.0rem;
+  word-break: break-word;
+  word-spacing: 50000px;
+  line-height: 30px;
+  
+  /* margin-bottom: -1px; */
+}
+
+.subtitle {
+  text-align: center;
+  margin-top: -10px;
+  font-style: italic;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight:bold;
+  
+}
+
+.currency-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.currency-row select {
+  border: 2px solid #e0e0e0;
+  border-radius: 10em;
+  padding: 0.5em;
+  width: 6rem;
+  font-size: 1rem;
+  text-align: center;
+  background-color: #e0e0e0;
+}
+
+select {
+  background-color: #e0e0e0;
+  border: 1px solid #e0e0e0;    /* Light gray border */
+  border-radius: 4px;        /* Rounded corners */
+  padding: 8px 12px;         /* Padding for better spacing */
+  font-size: 1rem;           /* Font size */
+  appearance: none;          /* Remove default styling */
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  outline: none;
+  /* -webkit-appearance: */
+}
+
+.arrow img {
+  width: 30px;
+  height: 30px;
+}
+
+/* amount conversion */
+.amount-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+}
+
+.amount-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* background box */
+.amount-input {
+  background-color: #e0e0e0;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  text-align: center;
+  width: 70px;
+}
+
+.equals {
+  font-weight: bold;
+  width: 1rem;
+  font-size: 1.5rem;
+}
+
+.camera-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.camera-button button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 10px 20px ;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  
+}
+
+.camera-buttom button:hover {
+  background-color: #e0e0e0;
+}
+
+.camera-icon {
+  width: 1.2rem;
+  height: 1rem;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+video {
+  max-width: 100%;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+.canvas-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Ensure canvas doesn't block interaction */
+}
+
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+
+
+
+/*
+
+select {
+  margin-left: .5rem;
+}
+ */
+
+
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
