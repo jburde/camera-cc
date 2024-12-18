@@ -16,8 +16,8 @@ import CurrencyOverlay from './components/CurrencyOverlay';
 
 
 
-const API_KEY = 'rlraTVMhYLJLFVx2fVD3DqXhgCBnhviW'
-const BASE_URL = 'https://api.currencybeacon.com/v1/convert'
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const API_KEY = process.env.REACT_APP_API_KEY;
 const SUPPORTED_CURRENCIES = ['USD', 'AUD', 'EUR','GBP', 'JPY', 'CAD', 'CHF', 'CNY', 'INR'];
 
 function App() {
@@ -128,10 +128,10 @@ function App() {
       {/* Conditional Rendering of CameraFeed */}
       {showCamera && (
         <>
-          <CameraFeed onFrameProcessed={setFrameData} />
-          {frameData && exchangeRate && (
-            <CurrencyOverlay frameData={frameData} exchangeRate={exchangeRate} />
-          )}
+            <CameraFeed onFrameProcessed={setFrameData} />
+            {frameData && exchangeRate && (
+              <CurrencyOverlay frameData={frameData} exchangeRate={exchangeRate} />
+            )}
         </>
       )}
 

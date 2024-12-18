@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const CameraFeed = ({ onFrameProcessed }) => {
   const videoRef = useRef(null);
@@ -8,43 +8,50 @@ const CameraFeed = ({ onFrameProcessed }) => {
     const startCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+        }
       } catch (err) {
-        console.error("Error accessing the camera: ", err);
+        console.error('Error accessing camera:', err);
       }
     };
 
     startCamera();
+
+    return () => {
+      if (videoRef.current?.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+      }
+    };
   }, []);
 
   const processFrame = () => {
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    if (videoRef.current && canvasRef.current) {
+      const context = canvasRef.current.getContext('2d');
+      if (!context) return;
 
-    if (video.readyState === video.HAVE_ENOUGH_DATA) {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
 
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      // Send the frame to the parent for OCR processing
-      const frameData = canvas.toDataURL('image/png');
-      onFrameProcessed(frameData);
+      const imageData = canvasRef.current.toDataURL('image/png');
+      onFrameProcessed && onFrameProcessed(imageData);
     }
-
     requestAnimationFrame(processFrame);
   };
 
   useEffect(() => {
-    requestAnimationFrame(processFrame);
+    const checkVideoReady = setInterval(() => {
+      if (videoRef.current && videoRef.current.readyState >= 2) {
+        processFrame();
+        clearInterval(checkVideoReady);
+      }
+    }, 100);
   }, []);
 
   return (
-    <div style={{ position: 'relative' }}>
-      <video ref={videoRef} style={{ width: '100%', height: 'auto' }} muted></video>
-      <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+    <div>
+      <video ref={videoRef} style={{ display: 'block', width: '100%' }} />
+      <canvas ref={canvasRef} style={{ display: 'none' }} width={640} height={480} />
     </div>
   );
 };

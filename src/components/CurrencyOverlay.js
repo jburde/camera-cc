@@ -13,19 +13,16 @@ const CurrencyOverlay = ({ frameData, exchangeRate }) => {
           logger: (info) => console.log(info),
         });
 
-        // Extract numbers from OCR text
         const numbers = (data.text.match(/[\d,]+(\.\d+)?/g) || []).map((num) =>
           parseFloat(num.replace(/,/g, ''))
         );
 
-        // Convert numbers using the exchange rate
         const convertedValues = numbers.map((num) => (num * exchangeRate).toFixed(2));
 
-        // Set the overlay data
         setOverlayData(
           data.words.map((word, idx) => ({
             text: `${convertedValues[idx] || word.text}`,
-            bbox: word.bbox, // Bounding box for placement
+            bbox: word.bbox,
           }))
         );
       } catch (err) {
