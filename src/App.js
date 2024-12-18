@@ -4,10 +4,15 @@ import './App.css';
 import Currency from './components/Currency';
 import arrowIcon from "./assets/arrow.png";
 import cameraIcon from "./assets/camera.png";
-import currencies from './currencies.json';
+// import currencies from './currencies.json';
 
 import Camera from './components/Camera';
-import CurrencyConverter from './components/CurrencyConverter';
+import CameraFeed from './components/CameraFeed';
+import CurrencyOverlay from './components/CurrencyOverlay';
+
+// import CurrencyConverter from './components/CurrencyConverter';
+// import OCRProcessor from './components/OCRProcessor';
+
 
 
 
@@ -57,6 +62,18 @@ function App() {
     setAmountInFromCurr(true);
   };
 
+  const [showCamera, setShowCamera] = useState(false);  // To control camera feed visibility
+  const [frameData, setFrameData] = useState(null);  // Frame data from CameraFeed
+
+  const handleToAmountChange = (e) => {
+    setAmount(e.target.value);
+    setToCurr(false);
+  };
+
+  const toggleCameraFeed = () => {
+    setShowCamera(!showCamera);
+  };
+
   return (
     <>
       <div className="title-box">
@@ -102,11 +119,21 @@ function App() {
       </div>
 
       <div className="camera-button">
-        <button >
+        <button onClick={toggleCameraFeed}>
           <img src={cameraIcon} alt="Camera Icon" className="camera-icon" />
-          Camera Translation
+          {showCamera ? "Stop Camera" : "Start Camera"}
         </button>
       </div>
+
+      {/* Conditional Rendering of CameraFeed */}
+      {showCamera && (
+        <>
+          <CameraFeed onFrameProcessed={setFrameData} />
+          {frameData && exchangeRate && (
+            <CurrencyOverlay frameData={frameData} exchangeRate={exchangeRate} />
+          )}
+        </>
+      )}
 
       <p className="footer">Built by Jerry Burdett</p>
       </>
