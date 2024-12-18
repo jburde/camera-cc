@@ -1,3 +1,7 @@
+This project was inspired by travelling to different countries and being curious how much I was paying for items in stores. It features a minimilistic design with a simple currency converison with a feature inspired by Google Lens Translator. Using the mobile devices camera, this feature overlays the converted amount into the user's desired currency making a seamless understanding of what the user is paying for. Instructions on how to run this app are found below. 
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
